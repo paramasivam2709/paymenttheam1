@@ -1,0 +1,495 @@
+<!-- blog.html - Blog Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Stackly</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: white; overflow-x: hidden; }
+        .gold-text { background: linear-gradient(135deg, #d4af37 0%, #f4e5c2 50%, #d4af37 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-blur { backdrop-filter: blur(20px); background: rgba(10, 10, 10, 0.9); }
+        .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; }
+        .cursor-dot { width: 5px; height: 5px; background-color: #d4af37; }
+        .cursor-outline { width: 30px; height: 30px; border: 2px solid rgba(212, 175, 55, 0.5); transition: all 0.2s; }
+        .dropdown-menu { opacity: 0; visibility: hidden; transform: translateY(-10px) scale(0.95); transition: all 0.3s; }
+        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+        .magnetic-btn { transition: transform 0.3s; }
+        .blog-card { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .blog-card:hover { transform: translateY(-10px); }
+        .blog-card:hover .blog-image { transform: scale(1.1); }
+        .blog-card:hover .blog-title { color: #d4af37; }
+        .category-active { background: #d4af37; color: #000; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 4px; }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 nav-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items">
+                <div class="flex items-center space-x-2 cursor-pointer">
+                <img src="image/logo_gold.png" alt="Logo" class="h-10 w-auto">
+                <span class="text-2xl font-bold gold-text">Stackly</span>
+                </div>
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <div class="dropdown relative">
+                        <button class="flex items-center space-x-1 text-gray-300 hover:text-yellow-400 transition-colors duration-300 py-2">
+                            <span>Home</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="dropdown-menu absolute top-full left-0 mt-2 w-48 glass rounded-xl p-2 shadow-2xl">
+                            <a href="index.html" class="block px-4 py-3 rounded-lg text-gray-300 hover:text-yellow-400 hover:bg-white/5 transition-all">Home 01</a>
+                            <a href="index-2.html" class="block px-4 py-3 rounded-lg text-gray-300 hover:text-yellow-400 hover:bg-white/5 transition-all">Home 02</a>
+                        </div>
+                    </div>
+                    
+                    <a href="about.html" class="text-gray-300 hover:text-yellow-400 transition-colors relative group">About<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span></a>
+                    <a href="services.html" class="text-gray-300 hover:text-yellow-400 transition-colors relative group">Services<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span></a>
+                    <a href="blog.html" class="text-yellow-400 transition-colors relative group">Blog<span class="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-400"></span></a>
+                    <a href="dashbord.html" class="text-gray-300 hover:text-yellow-400 transition-colors relative group">Dashbord<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span></a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    
+                    <a href="register.html" class="magnetic-btn px-6 py-2.5 bg-gradient-to-r from-yellow-500 to-yellow-600 text-black font-semibold rounded-full hover:shadow-lg hover:shadow-yellow-500/30 transform hover:-translate-y-0.5 transition-all">Sign Up</a>
+                </div>
+
+                <button id="mobile-menu-btn" class="md:hidden text-white p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-lg border-t border-white/10">
+
+    <div class="px-6 py-6 space-y-4">
+
+        <!-- Home Dropdown -->
+        <div>
+            <button onclick="toggleMobileHome()" class="flex justify-between items-center w-full text-gray-300 hover:text-yellow-400 py-2 text-lg">
+
+                Home
+
+                <svg id="home-arrow" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+
+            </button>
+
+            <div id="mobile-home-menu" class="hidden pl-4 mt-2 space-y-2">
+
+                <a href="index.html" class="block text-gray-400 hover:text-yellow-400 py-2">
+                    Home 1
+                </a>
+
+                <a href="index-2.html" class="block text-gray-400 hover:text-yellow-400 py-2">
+                    Home 2
+                </a>
+
+            </div>
+        </div>
+
+        <!-- Other Menu Links -->
+
+        <a href="about.html" class="block text-gray-300 hover:text-yellow-400 py-2 text-lg">
+            About
+        </a>
+
+        <a href="services.html" class="block text-gray-300 hover:text-yellow-400 py-2 text-lg">
+            Services
+        </a>
+
+        <a href="blog.html" class="block text-gray-300 hover:text-yellow-400 py-2 text-lg">
+            Blog
+        </a>
+
+        <a href="dashbord.html" class="block text-gray-300 hover:text-yellow-400 py-2 text-lg">
+            Dashboard
+        </a>
+
+        <!-- Buttons -->
+
+        <div class="pt-6 space-y-3">
+
+
+            <a href="register.html">
+                <button class="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 text-black font-semibold py-3 rounded-full">
+                    Sign Up
+                </button>
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="pt-32 pb-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-yellow-500/10 to-transparent"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="text-yellow-400 font-semibold tracking-wider uppercase text-sm">Our Blog</span>
+            <h1 class="text-5xl md:text-7xl font-bold mt-4 mb-6">Latest <span class="gold-text">Insights</span></h1>
+            <p class="text-xl text-gray-400 max-w-3xl mx-auto">Stay updated with the latest trends in fintech, security tips, and financial advice.</p>
+        </div>
+    </section>
+
+    <!-- Featured Post -->
+    <section class="py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass rounded-3xl overflow-hidden scroll-reveal">
+                <div class="grid lg:grid-cols-2">
+                    <div class="relative h-64 lg:h-auto overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&h=800&fit=crop" alt="Featured" class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-4 py-2 bg-yellow-500 text-black text-sm font-bold rounded-full">Featured</span>
+                        </div>
+                    </div>
+                    <div class="p-8 lg:p-12 flex flex-col justify-center">
+                        <div class="flex items-center space-x-4 text-sm text-gray-400 mb-4">
+                            <span>Jan 18, 2024</span>
+                            <span>•</span>
+                            <span>10 min read</span>
+                            <span>•</span>
+                            <span class="text-yellow-400">Cryptocurrency</span>
+                        </div>
+                        <h2 class="text-3xl lg:text-4xl font-bold mb-4 hover:text-yellow-400 transition-colors cursor-pointer">The Future of Digital Payments: Trends to Watch in 2024</h2>
+                        <p class="text-gray-400 mb-6 text-lg">Explore the emerging technologies and trends that are shaping the future of how we transact, from CBDCs to biometric authentication and beyond.</p>
+                        <a href="404.html" class="inline-flex items-center text-yellow-400 font-semibold group">
+                            Read Article
+                            <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Filter -->
+    <section class="py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center gap-4 scroll-reveal">
+                <button onclick="filterCategory('all')" class="category-btn category-active px-6 py-2 rounded-full glass text-sm font-semibold transition-all">All</button>
+                <button onclick="filterCategory('security')" class="category-btn px-6 py-2 rounded-full glass text-sm font-semibold text-gray-300 hover:text-white transition-all">Security</button>
+                <button onclick="filterCategory('crypto')" class="category-btn px-6 py-2 rounded-full glass text-sm font-semibold text-gray-300 hover:text-white transition-all">Crypto</button>
+                <button onclick="filterCategory('investment')" class="category-btn px-6 py-2 rounded-full glass text-sm font-semibold text-gray-300 hover:text-white transition-all">Investment</button>
+                <button onclick="filterCategory('business')" class="category-btn px-6 py-2 rounded-full glass text-sm font-semibold text-gray-300 hover:text-white transition-all">Business</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Grid -->
+    <section class="py-10 pb-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
+                <!-- Blog Card 1 -->
+                <article class="blog-card glass rounded-2xl overflow-hidden cursor-pointer scroll-reveal" data-category="security">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&h=400&fit=crop" alt="Security" class="blog-image w-full h-full object-cover transition-transform duration-700">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-yellow-500 text-black text-xs font-bold rounded-full">Security</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center space-x-4 text-sm text-gray-400 mb-3">
+                            <span>Jan 15, 2024</span>
+                            <span>•</span>
+                            <span>5 min read</span>
+                        </div>
+                        <h3 class="blog-title text-xl font-bold mb-3 transition-colors duration-300">10 Essential Tips to Protect Your Digital Wallet in 2024</h3>
+                        <p class="text-gray-400 mb-4 line-clamp-2">Learn the best practices for keeping your digital assets safe from emerging cyber threats and phishing attacks.</p>
+                        <a href="404.html" class="inline-flex items-center text-yellow-400 font-semibold group text-sm">
+                            Read More 
+                            <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Blog Card 2 -->
+                <article class="blog-card glass rounded-2xl overflow-hidden cursor-pointer scroll-reveal" data-category="crypto">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&h=400&fit=crop" alt="Crypto" class="blog-image w-full h-full object-cover transition-transform duration-700">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-yellow-500 text-black text-xs font-bold rounded-full">Crypto</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center space-x-4 text-sm text-gray-400 mb-3">
+                            <span>Jan 12, 2024</span>
+                            <span>•</span>
+                            <span>8 min read</span>
+                        </div>
+                        <h3 class="blog-title text-xl font-bold mb-3 transition-colors duration-300">Understanding DeFi: A Beginner's Guide to Decentralized Finance</h3>
+                        <p class="text-gray-400 mb-4 line-clamp-2">Demystifying the world of decentralized finance and how it's reshaping traditional banking systems.</p>
+                        <a href="404.html" class="inline-flex items-center text-yellow-400 font-semibold group text-sm">
+                            Read More 
+                            <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Blog Card 3 -->
+                <article class="blog-card glass rounded-2xl overflow-hidden cursor-pointer scroll-reveal" data-category="investment">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=600&h=400&fit=crop" alt="Investment" class="blog-image w-full h-full object-cover transition-transform duration-700">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-yellow-500 text-black text-xs font-bold rounded-full">Investment</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center space-x-4 text-sm text-gray-400 mb-3">
+                            <span>Jan 10, 2024</span>
+                            <span>•</span>
+                            <span>6 min read</span>
+                        </div>
+                        <h3 class="blog-title text-xl font-bold mb-3 transition-colors duration-300">How to Build a Diversified Portfolio with Zero Commission Trading</h3>
+                        <p class="text-gray-400 mb-4 line-clamp-2">Strategies for creating a balanced investment portfolio using modern commission-free platforms.</p>
+                        <a href="404.html" class="inline-flex items-center text-yellow-400 font-semibold group text-sm">
+                            Read More 
+                            <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Blog Card 4 -->
+                <article class="blog-card glass rounded-2xl overflow-hidden cursor-pointer scroll-reveal" data-category="business">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=400&fit=crop" alt="Business" class="blog-image w-full h-full object-cover transition-transform duration-700">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-yellow-500 text-black text-xs font-bold rounded-full">Business</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center space-x-4 text-sm text-gray-400 mb-3">
+                            <span>Jan 8, 2024</span>
+                            <span>•</span>
+                            <span>7 min read</span>
+                        </div>
+                        <h3 class="blog-title text-xl font-bold mb-3 transition-colors duration-300">5 Ways Virtual Cards Can Streamline Your Business Expenses</h3>
+                        <p class="text-gray-400 mb-4 line-clamp-2">Discover how modern businesses are using virtual cards to control spending and simplify accounting.</p>
+                        <a href="404.html" class="inline-flex items-center text-yellow-400 font-semibold group text-sm">
+                            Read More 
+                            <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Blog Card 5 -->
+                <article class="blog-card glass rounded-2xl overflow-hidden cursor-pointer scroll-reveal" data-category="security">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop" alt="Security" class="blog-image w-full h-full object-cover transition-transform duration-700">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-yellow-500 text-black text-xs font-bold rounded-full">Security</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center space-x-4 text-sm text-gray-400 mb-3">
+                            <span>Jan 5, 2024</span>
+                            <span>•</span>
+                            <span>4 min read</span>
+                        </div>
+                        <h3 class="blog-title text-xl font-bold mb-3 transition-colors duration-300">Biometric Authentication: The Future of Secure Payments</h3>
+                        <p class="text-gray-400 mb-4 line-clamp-2">How fingerprint and facial recognition are making payments more secure than ever before.</p>
+                        <a href="404.html" class="inline-flex items-center text-yellow-400 font-semibold group text-sm">
+                            Read More 
+                            <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Blog Card 6 -->
+                <article class="blog-card glass rounded-2xl overflow-hidden cursor-pointer scroll-reveal" data-category="investment">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&h=400&fit=crop" alt="Investment" class="blog-image w-full h-full object-cover transition-transform duration-700">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-yellow-500 text-black text-xs font-bold rounded-full">Investment</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center space-x-4 text-sm text-gray-400 mb-3">
+                            <span>Jan 3, 2024</span>
+                            <span>•</span>
+                            <span>9 min read</span>
+                        </div>
+                        <h3 class="blog-title text-xl font-bold mb-3 transition-colors duration-300">ETF vs Mutual Funds: Which is Right for Your Portfolio?</h3>
+                        <p class="text-gray-400 mb-4 line-clamp-2">A comprehensive comparison to help you make informed investment decisions.</p>
+                        <a href="404.html" class="inline-flex items-center text-yellow-400 font-semibold group text-sm">
+                            Read More 
+                            <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </a>
+                    </div>
+                </article>
+            </div>
+
+            
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-20 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass rounded-3xl p-8 md:p-12 text-center scroll-reveal">
+                <h3 class="text-2xl md:text-3xl font-bold mb-4">Subscribe to Our Newsletter</h3>
+                <p class="text-gray-400 mb-8 max-w-2xl mx-auto">Get the latest fintech news, security tips, and exclusive offers delivered straight to your inbox.</p>
+                <form action="404.html" class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto" >
+                    <input type="email" placeholder="Enter your email" class="flex-1 px-6 py-4 rounded-full bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-yellow-400 transition-colors" required>
+                   <button type="submit" class="px-8 py-4 bg-gradient-to-r from-yellow-500 to-yellow-600 text-black font-bold rounded-full hover:shadow-lg hover:shadow-yellow-500/40 transition-all">
+                        Subscribe
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-5 gap-12 mb-12">
+                <div class="col-span-2">
+                    <a href="index.html" class="flex items">
+                <div class="flex items-center space-x-2 cursor-pointer">
+                <img src="image/logo_gold.png" alt="Logo" class="h-10 w-auto">
+                <span class="text-2xl font-bold gold-text">Stackly</span>
+                </div>
+                </a>
+                    <p class="text-gray-400 max-w-sm mb-6">The fastest, most secure way to manage your digital payments. Trusted by over 1 million users worldwide.</p>
+                    <div class="flex space-x-4">
+                        <a href="404.html" class="w-10 h-10 rounded-full glass flex items-center justify-center text-gray-400 hover:text-yellow-400 hover:border-yellow-400 transition-all duration-300">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                        </a>
+                        <a href="404.html" class="w-10 h-10 rounded-full glass flex items-center justify-center text-gray-400 hover:text-yellow-400 hover:border-yellow-400 transition-all duration-300">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="404.html" class="w-10 h-10 rounded-full glass flex items-center justify-center text-gray-400 hover:text-yellow-400 hover:border-yellow-400 transition-all duration-300">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Product</h4>
+                    <ul class="space-y-3">
+                        <li><a href="404.html" class="text-gray-400 hover:text-yellow-400 transition-colors">Features</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-yellow-400 transition-colors">Pricing</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-yellow-400 transition-colors">Security</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-yellow-400 transition-colors">Business</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-yellow-400 transition-colors">Virtual Cards</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Company</h4>
+                    <ul class="space-y-3">
+                        <li><a href="404.html" class="text-gray-400 hover:text-yellow-400 transition-colors">About</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-yellow-400 transition-colors">Careers</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-yellow-400 transition-colors">Press</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-yellow-400 transition-colors">Blog</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-yellow-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Support</h4>
+                    <ul class="space-y-3">
+                        <li><a href="404.html" class="text-gray-400 hover:text-yellow-400 transition-colors">Help Center</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-yellow-400 transition-colors">API Docs</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-yellow-400 transition-colors">Status</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-yellow-400 transition-colors">Community</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm">© 2026 Stackly. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="404.html" class="text-gray-500 hover:text-yellow-400 text-sm transition-colors">Privacy Policy</a>
+                    <a href="404.html" class="text-gray-500 hover:text-yellow-400 text-sm transition-colors">Terms of Service</a>
+                    <a href="404.html" class="text-gray-500 hover:text-yellow-400 text-sm transition-colors">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Cursor
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', (e) => {
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+            cursorOutline.animate({ left: e.clientX + 'px', top: e.clientY + 'px' }, { duration: 500, fill: "forwards" });
+        });
+
+        document.querySelectorAll('a, button, .magnetic-btn, .blog-card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorOutline.style.width = '50px';
+                cursorOutline.style.height = '50px';
+                cursorOutline.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorOutline.style.width = '30px';
+                cursorOutline.style.height = '30px';
+                cursorOutline.style.backgroundColor = 'transparent';
+            });
+        });
+
+        // Magnetic buttons
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                btn.style.transform = `translate(${(e.clientX - rect.left - rect.width/2) * 0.2}px, ${(e.clientY - rect.top - rect.height/2) * 0.2}px)`;
+            });
+            btn.addEventListener('mouseleave', () => btn.style.transform = 'translate(0, 0)');
+        });
+
+        // Scroll reveal
+        gsap.utils.toArray('.scroll-reveal').forEach(element => {
+            gsap.fromTo(element, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: element, start: "top 85%" } });
+        });
+
+        // Category filter
+        function filterCategory(category) {
+            // Update buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('category-active');
+                btn.classList.remove('bg-yellow-500', 'text-black');
+                btn.classList.add('glass', 'text-gray-300');
+            });
+            event.target.classList.add('category-active');
+            event.target.classList.remove('glass', 'text-gray-300');
+
+            // Filter posts
+            const posts = document.querySelectorAll('#blog-grid article');
+            posts.forEach(post => {
+                if (category === 'all' || post.dataset.category === category) {
+                    post.style.display = 'block';
+                    gsap.fromTo(post, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 });
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+        }
+
+        // Mobile menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

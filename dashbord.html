@@ -1,0 +1,346 @@
+<!-- dashboard.html - Dashboard Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Stackly</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: white; }
+        .gold-text { background: linear-gradient(135deg, #d4af37 0%, #f4e5c2 50%, #d4af37 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .sidebar { background: rgba(15, 15, 15, 0.95); backdrop-filter: blur(20px); }
+        .nav-item:hover { background: rgba(212, 175, 55, 0.1); color: #d4af37; }
+        .nav-item.active { background: rgba(212, 175, 55, 0.2); color: #d4af37; border-right: 3px solid #d4af37; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1); }
+        .progress-bar { transition: width 1s ease-out; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 3px; }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar w-64 hidden md:flex flex-col border-r border-white/10">
+            <div class="p-6">
+                <a href="index.html" class="flex items">
+                <div class="flex items-center space-x-2 cursor-pointer">
+                <img src="image/logo_gold.png" alt="Logo" class="h-10 w-auto">
+                <span class="text-2xl font-bold gold-text">Stackly</span>
+                </div>
+                </a>
+            </div>
+
+            <nav class="flex-1 px-4 space-y-2">
+                <a href="404.html" class="nav-item active flex items-center space-x-3 px-4 py-3 rounded-xl transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="404.html" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                    <span>Cards</span>
+                </a>
+                <a href="404.html" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                    <span>Transactions</span>
+                </a>
+                <a href="404.html" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    <span>Investments</span>
+                </a>
+                <a href="404.html" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Exchange</span>
+                </a>
+                <a href="404.html" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-white/10">
+                <a href="login.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 hover:text-red-400 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <!-- Header -->
+            <header class="glass sticky top-0 z-40 px-8 py-4 flex justify-between items-center">
+                <div class="flex items-center md:hidden">
+                    <button class="text-white mr-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                    <span class="text-xl font-bold gold-text">Stackly</span>
+                </div>
+
+                <div class="hidden md:block">
+                    <h1 class="text-2xl font-bold">Dashboard</h1>
+                    <p class="text-gray-400 text-sm">Welcome back, Alex!</p>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button class="relative p-2 text-gray-400 hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                        <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                    <div class="flex items-center space-x-3">
+                        <img src="https://i.pravatar.cc/150?img=11" alt="Profile" class="w-10 h-10 rounded-full border-2 border-yellow-500/30">
+                        <div class="hidden md:block">
+                            <p class="font-semibold text-sm">Alex Morgan</p>
+                            <p class="text-gray-400 text-xs">Pro Member</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="p-8">
+                <!-- Stats Cards -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="glass rounded-2xl p-6 card-hover transition-all duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <p class="text-gray-400 text-sm mb-1">Total Balance</p>
+                                <h3 class="text-2xl font-bold gold-text">$48,925.00</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <span class="text-green-400 flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                                +12.5%
+                            </span>
+                            <span class="text-gray-400 ml-2">vs last month</span>
+                        </div>
+                    </div>
+
+                    <div class="glass rounded-2xl p-6 card-hover transition-all duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <p class="text-gray-400 text-sm mb-1">Monthly Income</p>
+                                <h3 class="text-2xl font-bold text-white">$12,450.00</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path></svg>
+                            </div>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <span class="text-green-400 flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                                +8.2%
+                            </span>
+                            <span class="text-gray-400 ml-2">vs last month</span>
+                        </div>
+                    </div>
+
+                    <div class="glass rounded-2xl p-6 card-hover transition-all duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <p class="text-gray-400 text-sm mb-1">Monthly Expenses</p>
+                                <h3 class="text-2xl font-bold text-white">$3,280.00</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6"></path></svg>
+                            </div>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <span class="text-red-400 flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                                -2.4%
+                            </span>
+                            <span class="text-gray-400 ml-2">vs last month</span>
+                        </div>
+                    </div>
+
+                    <div class="glass rounded-2xl p-6 card-hover transition-all duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <p class="text-gray-400 text-sm mb-1">Active Cards</p>
+                                <h3 class="text-2xl font-bold text-white">8</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <span class="text-gray-400">2 expiring soon</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Grid -->
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Chart Section -->
+                    <div class="lg:col-span-2 glass rounded-2xl p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-bold">Balance History</h3>
+                            <select class="bg-white/5 border border-white/10 rounded-lg px-3 py-1 text-sm text-gray-300 focus:outline-none focus:border-yellow-400">
+                                <option>Last 7 Days</option>
+                                <option>Last 30 Days</option>
+                                <option>Last 3 Months</option>
+                            </select>
+                        </div>
+                        <div class="h-64 flex items-end space-x-2">
+                            <div class="flex-1 flex flex-col justify-end">
+                                <div class="bg-yellow-500/30 rounded-t-lg progress-bar" style="height: 60%"></div>
+                                <span class="text-xs text-gray-400 mt-2 text-center">Mon</span>
+                            </div>
+                            <div class="flex-1 flex flex-col justify-end">
+                                <div class="bg-yellow-500/30 rounded-t-lg progress-bar" style="height: 75%"></div>
+                                <span class="text-xs text-gray-400 mt-2 text-center">Tue</span>
+                            </div>
+                            <div class="flex-1 flex flex-col justify-end">
+                                <div class="bg-yellow-500/30 rounded-t-lg progress-bar" style="height: 45%"></div>
+                                <span class="text-xs text-gray-400 mt-2 text-center">Wed</span>
+                            </div>
+                            <div class="flex-1 flex flex-col justify-end">
+                                <div class="bg-yellow-500/40 rounded-t-lg progress-bar" style="height: 90%"></div>
+                                <span class="text-xs text-gray-400 mt-2 text-center">Thu</span>
+                            </div>
+                            <div class="flex-1 flex flex-col justify-end">
+                                <div class="bg-yellow-500/30 rounded-t-lg progress-bar" style="height: 55%"></div>
+                                <span class="text-xs text-gray-400 mt-2 text-center">Fri</span>
+                            </div>
+                            <div class="flex-1 flex flex-col justify-end">
+                                <div class="bg-yellow-500/50 rounded-t-lg progress-bar" style="height: 85%"></div>
+                                <span class="text-xs text-gray-400 mt-2 text-center">Sat</span>
+                            </div>
+                            <div class="flex-1 flex flex-col justify-end">
+                                <div class="bg-yellow-500/30 rounded-t-lg progress-bar" style="height: 70%"></div>
+                                <span class="text-xs text-gray-400 mt-2 text-center">Sun</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="glass rounded-2xl p-6">
+                        <h3 class="text-lg font-bold mb-6">Quick Actions</h3>
+                        <div class="space-y-4">
+                            <button class="w-full p-4 rounded-xl bg-white/5 hover:bg-yellow-500/20 hover:border-yellow-500/50 border border-transparent transition-all flex items-center space-x-3 group">
+                                <div class="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center group-hover:bg-yellow-500 transition-colors">
+                                    <svg class="w-5 h-5 text-yellow-400 group-hover:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                                </div>
+                                <span class="font-semibold">Add Money</span>
+                            </button>
+                            
+                            <button class="w-full p-4 rounded-xl bg-white/5 hover:bg-yellow-500/20 hover:border-yellow-500/50 border border-transparent transition-all flex items-center space-x-3 group">
+                                <div class="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center group-hover:bg-yellow-500 transition-colors">
+                                    <svg class="w-5 h-5 text-yellow-400 group-hover:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                                </div>
+                                <span class="font-semibold">Send Money</span>
+                            </button>
+                            
+                            <button class="w-full p-4 rounded-xl bg-white/5 hover:bg-yellow-500/20 hover:border-yellow-500/50 border border-transparent transition-all flex items-center space-x-3 group">
+                                <div class="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center group-hover:bg-yellow-500 transition-colors">
+                                    <svg class="w-5 h-5 text-yellow-400 group-hover:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                                </div>
+                                <span class="font-semibold">New Card</span>
+                            </button>
+                            
+                            <button class="w-full p-4 rounded-xl bg-white/5 hover:bg-yellow-500/20 hover:border-yellow-500/50 border border-transparent transition-all flex items-center space-x-3 group">
+                                <div class="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center group-hover:bg-yellow-500 transition-colors">
+                                    <svg class="w-5 h-5 text-yellow-400 group-hover:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                </div>
+                                <span class="font-semibold">Statement</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="mt-8 glass rounded-2xl p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold">Recent Transactions</h3>
+                        <a href="404.html" class="text-yellow-400 text-sm hover:underline">View All</a>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-left text-gray-400 text-sm border-b border-white/10">
+                                    <th class="pb-4 font-medium">Transaction</th>
+                                    <th class="pb-4 font-medium">Category</th>
+                                    <th class="pb-4 font-medium">Date</th>
+                                    <th class="pb-4 font-medium">Amount</th>
+                                    <th class="pb-4 font-medium">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                <tr class="border-b border-white/5">
+                                    <td class="py-4 flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                        </div>
+                                        <span>Electric Bill</span>
+                                    </td>
+                                    <td class="py-4 text-gray-400">Utilities</td>
+                                    <td class="py-4 text-gray-400">Jan 18, 2024</td>
+                                    <td class="py-4 text-red-400">-$124.50</td>
+                                    <td class="py-4"><span class="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs">Completed</span></td>
+                                </tr>
+                                <tr class="border-b border-white/5">
+                                    <td class="py-4 flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                        </div>
+                                        <span>Client Payment</span>
+                                    </td>
+                                    <td class="py-4 text-gray-400">Income</td>
+                                    <td class="py-4 text-gray-400">Jan 17, 2024</td>
+                                    <td class="py-4 text-green-400">+$2,450.00</td>
+                                    <td class="py-4"><span class="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs">Completed</span></td>
+                                </tr>
+                                <tr class="border-b border-white/5">
+                                    <td class="py-4 flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        </div>
+                                        <span>Netflix Subscription</span>
+                                    </td>
+                                    <td class="py-4 text-gray-400">Entertainment</td>
+                                    <td class="py-4 text-gray-400">Jan 15, 2024</td>
+                                    <td class="py-4 text-red-400">-$15.99</td>
+                                    <td class="py-4"><span class="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-4 flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                        </div>
+                                        <span>Grocery Store</span>
+                                    </td>
+                                    <td class="py-4 text-gray-400">Shopping</td>
+                                    <td class="py-4 text-gray-400">Jan 14, 2024</td>
+                                    <td class="py-4 text-red-400">-$89.25</td>
+                                    <td class="py-4"><span class="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs">Completed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Animate progress bars on load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.progress-bar').forEach(bar => {
+                const height = bar.style.height;
+                bar.style.height = '0';
+                setTimeout(() => {
+                    bar.style.height = height;
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
