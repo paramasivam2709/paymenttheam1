@@ -250,7 +250,7 @@
     <div class="cursor-ring hidden md:block"></div>
 
     <!-- Navigation -->
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 nav-hidden">
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
         <div class="glass-light border-b border-gray-100">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-20">
@@ -967,24 +967,7 @@
             el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
         });
 
-        // Navigation show/hide on scroll
-        let lastScroll = 0;
-        const navbar = document.getElementById('navbar');
         
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            
-            if (currentScroll > 100) {
-                navbar.classList.remove('nav-hidden');
-                navbar.classList.add('nav-visible');
-            } else {
-                navbar.classList.add('nav-hidden');
-                navbar.classList.remove('nav-visible');
-            }
-            
-            lastScroll = currentScroll;
-        });
-
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');

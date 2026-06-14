@@ -21,7 +21,7 @@
         .step-completed { background: #10b981; color: #000; }
     </style>
 </head>
-<body class="antialiased flex items-center justify-center p-4 relative overflow-hidden">
+<body class="antialiased flex items-center justify-center p-4 relative overflow-x-hidden overflow-y-auto min-h-screen">
     <!-- Background -->
     <div class="absolute inset-0 overflow-hidden">
         <div class="absolute top-20 left-10 w-72 h-72 bg-yellow-500/10 rounded-full blur-3xl"></div>
@@ -144,27 +144,9 @@
                 </form>
             </div>
 
-            <!-- Divider -->
-            <div class="relative my-8">
-                <div class="absolute inset-0 flex items-center">
-                    <div class="w-full border-t border-white/10"></div>
-                </div>
-                <div class="relative flex justify-center text-sm">
-                    <span class="px-4 bg-[#0a0a0a] text-gray-400">Or sign up with</span>
-                </div>
-            </div>
+            
 
-            <!-- Social Login -->
-            <div class="grid grid-cols-2 gap-4">
-               <a href="404.html"><button class="flex items-center justify-center space-x-2 p-3 rounded-xl glass hover:bg-white/10 transition-all">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/></svg>
-                    <span class="text-sm">Google</span>
-                </button></a>
-                <a href="404.html"><button class="flex items-center justify-center space-x-2 p-3 rounded-xl glass hover:bg-white/10 transition-all">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.２6c-1.２43 0-1.63.771-1.63 1.56２V１２h２．７７３l-.４４３ ２．８９h-２．３３v６．９８９C１８．３４３ ２１．１２９ ２２ １６．９９ ２２ １２c０-５．５２３-４．４７７-１０-１０-１０z"/></svg>
-                    <span class="text-sm">Apple</span>
-                </button></a>
-            </div>
+            
 
             <!-- Login Link -->
             <p class="text-center mt-8 text-gray-400">
